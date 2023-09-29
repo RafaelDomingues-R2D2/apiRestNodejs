@@ -25,11 +25,11 @@ export async function transactionsRoutes(app: FastifyInstance) {
     const { sessionId } = request.cookies
     const { id } = getTransactionParamsSchema.parse(request.params)
 
-    const transactions = await knex('transactions')
+    const transaction = await knex('transactions')
       .where({ session_id: sessionId, id })
       .first()
 
-    return { transactions }
+    return { transaction }
   })
 
   app.get(
@@ -58,7 +58,7 @@ export async function transactionsRoutes(app: FastifyInstance) {
       request.body,
     )
 
-    let sessionId = request.cookies.session_id
+    let sessionId = request.cookies.sessionId
 
     if (!sessionId) {
       sessionId = randomUUID()
